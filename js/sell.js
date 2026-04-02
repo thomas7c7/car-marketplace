@@ -1,9 +1,27 @@
 const form = document.getElementById("sell-form");
 const vinBtn = document.getElementById("vin-btn");
 const vinMessage = document.getElementById("vin-message");
+const submitBtn = form ? form.querySelector('button[type="submit"]') : null;
+
+const editCar = JSON.parse(localStorage.getItem("editCar"));
 
 if (vinMessage) {
   vinMessage.textContent = "";
+}
+
+if (editCar && submitBtn) {
+  document.getElementById("vin").value = editCar.vin || "";
+  document.getElementById("make").value = editCar.make || "";
+  document.getElementById("model").value = editCar.model || "";
+  document.getElementById("year").value = editCar.year || "";
+  document.getElementById("price").value = editCar.price || "";
+  document.getElementById("mileage").value = editCar.mileage || "";
+  document.getElementById("color").value = editCar.color || "";
+  document.getElementById("location").value = editCar.location || "";
+  document.getElementById("image").value = editCar.image || "";
+  document.getElementById("description").value = editCar.description || "";
+
+  submitBtn.textContent = "Update Listing";
 }
 
 if (vinBtn) {
@@ -53,7 +71,7 @@ if (form) {
     e.preventDefault();
 
     const newCar = {
-      id: Date.now(),
+      id: editCar ? editCar.id : Date.now(),
       vin: document.getElementById("vin").value.trim(),
       make: document.getElementById("make").value.trim(),
       model: document.getElementById("model").value.trim(),
@@ -66,10 +84,18 @@ if (form) {
       description: document.getElementById("description").value.trim()
     };
 
-    const existingCars = JSON.parse(localStorage.getItem("cars")) || [];
-    existingCars.push(newCar);
-    localStorage.setItem("cars", JSON.stringify(existingCars));
+    let existingCars = JSON.parse(localStorage.getItem("cars")) || [];
 
+    if (editCar) {
+      existingCars = existingCars.map(car =>
+        car.id === editCar.id ? newCar : car
+      );
+      localStorage.removeItem("editCar");
+    } else {
+      existingCars.push(newCar);
+    }
+
+    localStorage.setItem("cars", JSON.stringify(existingCars));
     window.location.href = "cars.html";
   });
 }
