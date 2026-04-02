@@ -2,7 +2,6 @@ const form = document.getElementById("sell-form");
 const vinBtn = document.getElementById("vin-btn");
 const vinMessage = document.getElementById("vin-message");
 
-// Clear message initially
 if (vinMessage) {
   vinMessage.textContent = "";
 }
@@ -11,7 +10,6 @@ if (vinBtn) {
   vinBtn.addEventListener("click", () => {
     const vin = document.getElementById("vin").value.trim();
 
-    // Clear previous message
     vinMessage.textContent = "";
 
     if (vin.length !== 17) {
@@ -35,12 +33,10 @@ if (vinBtn) {
           return;
         }
 
-        // Autofill
         document.getElementById("make").value = make;
         document.getElementById("model").value = model;
         document.getElementById("year").value = year;
 
-        // ✅ Show success message (better UX than alert)
         vinMessage.textContent = "VIN loaded! Please fill remaining fields.";
         vinMessage.style.color = "green";
       })
@@ -49,5 +45,31 @@ if (vinBtn) {
         vinMessage.textContent = "VIN lookup failed. Please try again.";
         vinMessage.style.color = "red";
       });
+  });
+}
+
+if (form) {
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    const newCar = {
+      id: Date.now(),
+      vin: document.getElementById("vin").value.trim(),
+      make: document.getElementById("make").value.trim(),
+      model: document.getElementById("model").value.trim(),
+      year: document.getElementById("year").value.trim(),
+      price: document.getElementById("price").value.trim(),
+      mileage: document.getElementById("mileage").value.trim(),
+      color: document.getElementById("color").value.trim(),
+      location: document.getElementById("location").value.trim(),
+      image: document.getElementById("image").value.trim(),
+      description: document.getElementById("description").value.trim()
+    };
+
+    const existingCars = JSON.parse(localStorage.getItem("cars")) || [];
+    existingCars.push(newCar);
+    localStorage.setItem("cars", JSON.stringify(existingCars));
+
+    window.location.href = "cars.html";
   });
 }
