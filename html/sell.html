@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sell Your Car</title>
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+  <header>
+    <h1>Sell Your Car</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="cars.html">Browse Cars</a>
+      <a href="sell.html">Sell Car</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="form-section">
+      <h2 class="section-title">Create a New Listing</h2>
+
+      <form id="sell-form" class="sell-form">
+        <input type="text" id="vin" placeholder="Enter VIN (17 characters)">
+        <button type="button" id="vin-btn" class="btn">Lookup VIN</button>
+        <p id="vin-message" class="vin-message"></p>
+
+        <input type="text" id="make" placeholder="Make (Toyota)" required>
+        <input type="text" id="model" placeholder="Model (Camry)" required>
+        <input type="number" id="year" placeholder="Year" required>
+        <input type="text" id="price" placeholder="Price ($24,000)" required>
+        <input type="text" id="mileage" placeholder="Mileage (18,000 miles)" required>
+        <input type="text" id="color" placeholder="Color" required>
+        <input type="text" id="location" placeholder="Location" required>
+        <input type="text" id="image" placeholder="Image URL" required>
+        <textarea id="description" placeholder="Description" rows="5" required></textarea>
+        <button type="submit" class="btn">List Car</button>
+      </form>
+    </section>
+  </main>
+
+  <script src="../js/sell.js"></script>
+</body>
+</html>

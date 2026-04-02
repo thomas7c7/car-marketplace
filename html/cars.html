@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Browse Cars</title>
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+  <header>
+    <h1>Browse Cars</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="cars.html">Browse Cars</a>
+      <a href="sell.html">Sell Car</a>
+    </nav>
+  </header>
+
+<main>
+
+<div class="filters">
+  <select id="filter-make">
+    <option value="all">All Makes</option>
+    <option value="Toyota">Toyota</option>
+    <option value="Honda">Honda</option>
+    <option value="Ford">Ford</option>
+    <option value="BMW">BMW</option>
+    <option value="Nissan">Nissan</option>
+    <option value="Chevrolet">Chevrolet</option>
+  </select>
+
+  <select id="filter-price">
+    <option value="all">All Prices</option>
+    <option value="under20000">Under $20,000</option>
+    <option value="20000to30000">$20,000 - $30,000</option>
+    <option value="over30000">Over $30,000</option>
+  </select>
+
+  <select id="sort-cars">
+    <option value="default">Sort By</option>
+    <option value="price-low">Price: Low to High</option>
+    <option value="price-high">Price: High to Low</option>
+    <option value="year-new">Year: Newest First</option>
+    <option value="year-old">Year: Oldest First</option>
+  </select>
+</div>
+
+<div class="vin-search">
+  <input type="text" id="vin-search" placeholder="Enter VIN (17 characters)">
+  <button id="vin-search-btn">Lookup VIN</button>
+</div>
+
+<div id="vin-result"></div>
+
+  <!-- CAR LIST -->
+  <div id="car-list"></div>
+
+</main>
+
+  <script src="../js/cars.js"></script>
+</body>
+</html>
