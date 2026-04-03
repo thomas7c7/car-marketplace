@@ -3,10 +3,12 @@ const currentUser = JSON.parse(localStorage.getItem("loggedInUser"));
 if (!currentUser) {
   window.location.href = "login.html";
 }
+
 const form = document.getElementById("sell-form");
 const vinBtn = document.getElementById("vin-btn");
 const vinMessage = document.getElementById("vin-message");
 const submitBtn = form ? form.querySelector('button[type="submit"]') : null;
+
 const editCar = JSON.parse(localStorage.getItem("editCar"));
 
 if (vinMessage) {
@@ -32,11 +34,13 @@ if (vinBtn) {
   vinBtn.addEventListener("click", () => {
     const vin = document.getElementById("vin").value.trim();
 
-    vinMessage.textContent = "";
+    if (vinMessage) vinMessage.textContent = "";
 
     if (vin.length !== 17) {
-      vinMessage.textContent = "VIN must be exactly 17 characters.";
-      vinMessage.style.color = "red";
+      if (vinMessage) {
+        vinMessage.textContent = "VIN must be exactly 17 characters.";
+        vinMessage.style.color = "red";
+      }
       return;
     }
 
@@ -50,8 +54,10 @@ if (vinBtn) {
         const year = results.find(item => item.Variable === "Model Year")?.Value || "";
 
         if (!make && !model && !year) {
-          vinMessage.textContent = "Could not find vehicle details for this VIN.";
-          vinMessage.style.color = "red";
+          if (vinMessage) {
+            vinMessage.textContent = "Could not find vehicle details for this VIN.";
+            vinMessage.style.color = "red";
+          }
           return;
         }
 
@@ -59,13 +65,17 @@ if (vinBtn) {
         document.getElementById("model").value = model;
         document.getElementById("year").value = year;
 
-        vinMessage.textContent = "VIN loaded! Please fill remaining fields.";
-        vinMessage.style.color = "green";
+        if (vinMessage) {
+          vinMessage.textContent = "VIN loaded! Please fill remaining fields.";
+          vinMessage.style.color = "green";
+        }
       })
       .catch(error => {
         console.error("VIN lookup failed:", error);
-        vinMessage.textContent = "VIN lookup failed. Please try again.";
-        vinMessage.style.color = "red";
+        if (vinMessage) {
+          vinMessage.textContent = "VIN lookup failed. Please try again.";
+          vinMessage.style.color = "red";
+        }
       });
   });
 }
@@ -85,7 +95,10 @@ if (form) {
       color: document.getElementById("color").value.trim(),
       location: document.getElementById("location").value.trim(),
       image: document.getElementById("image").value.trim(),
-      description: document.getElementById("description").value.trim()
+      description: document.getElementById("description").value.trim(),
+      ownerId: editCar ? editCar.ownerId : currentUser.id,
+      ownerName: editCar ? editCar.ownerName : currentUser.name,
+      ownerEmail: editCar ? editCar.ownerEmail : currentUser.email
     };
 
     let existingCars = JSON.parse(localStorage.getItem("cars")) || [];

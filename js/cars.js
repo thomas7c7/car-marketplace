@@ -3,6 +3,7 @@ const currentUser = JSON.parse(localStorage.getItem("loggedInUser"));
 if (!currentUser) {
   window.location.href = "login.html";
 }
+
 const carList = document.getElementById("car-list");
 const filterManufacturer = document.getElementById("filter-manufacturer");
 const filterMileage = document.getElementById("filter-mileage");
@@ -15,17 +16,16 @@ function getStoredCars() {
 }
 
 function getNumericPrice(priceString) {
-  return Number(String(priceString).replace(/[^0-9.-]+/g, ""));
+  return Number(String(priceString || "").replace(/[^0-9.-]+/g, ""));
 }
 
 function getNumericMileage(mileageString) {
-  return Number(String(mileageString).replace(/[^0-9.-]+/g, ""));
+  return Number(String(mileageString || "").replace(/[^0-9.-]+/g, ""));
 }
 
 function deleteCar(carId) {
   const storedCars = getStoredCars();
   const updatedCars = storedCars.filter(car => car.id !== carId);
-
   localStorage.setItem("cars", JSON.stringify(updatedCars));
   applyFiltersAndSort();
 }
@@ -36,6 +36,8 @@ function editCar(car) {
 }
 
 function displayCars(carsArray) {
+  if (!carList) return;
+
   carList.innerHTML = "";
 
   if (carsArray.length === 0) {
@@ -44,6 +46,8 @@ function displayCars(carsArray) {
   }
 
   carsArray.forEach(car => {
+    const isOwner = car.ownerId === currentUser.id;
+
     const carCard = document.createElement("div");
     carCard.classList.add("car-card");
 
@@ -54,11 +58,14 @@ function displayCars(carsArray) {
       <p><strong>Price:</strong> ${car.price}</p>
       <p><strong>Mileage:</strong> ${car.mileage}</p>
       <p><strong>Location:</strong> ${car.location}</p>
+      <p><strong>Listed by:</strong> ${car.ownerName || "Unknown User"}</p>
 
-      <div class="card-actions">
-        <button class="edit-btn">Edit</button>
-        <button class="delete-btn">Delete</button>
-      </div>
+      ${isOwner ? `
+        <div class="card-actions">
+          <button class="edit-btn">Edit</button>
+          <button class="delete-btn">Delete</button>
+        </div>
+      ` : ""}
     `;
 
     carCard.addEventListener("click", () => {
@@ -66,23 +73,23 @@ function displayCars(carsArray) {
       window.location.href = "car.html";
     });
 
-    const editBtn = carCard.querySelector(".edit-btn");
-    const deleteBtn = carCard.querySelector(".delete-btn");
+    if (isOwner) {
+      const editBtn = carCard.querySelector(".edit-btn");
+      const deleteBtn = carCard.querySelector(".delete-btn");
 
-    editBtn.addEventListener("click", (e) => {
-      e.stopPropagation();
-      editCar(car);
-    });
+      editBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        editCar(car);
+      });
 
-    deleteBtn.addEventListener("click", (e) => {
-      e.stopPropagation();
-
-      const confirmDelete = confirm(`Delete ${car.year} ${car.make} ${car.model}?`);
-
-      if (confirmDelete) {
-        deleteCar(car.id);
-      }
-    });
+      deleteBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        const confirmDelete = confirm(`Delete ${car.year} ${car.make} ${car.model}?`);
+        if (confirmDelete) {
+          deleteCar(car.id);
+        }
+      });
+    }
 
     carList.appendChild(carCard);
   });
@@ -91,39 +98,29 @@ function displayCars(carsArray) {
 function applyFiltersAndSort() {
   let filteredCars = [...getStoredCars()];
 
-  const selectedManufacturer = filterManufacturer?.value || "all";
-  const selectedMileage = filterMileage?.value || "all";
-  const selectedSort = sortCars?.value || "default";
+  const selectedManufacturer = filterManufacturer ? filterManufacturer.value : "all";
+  const selectedMileage = filterMileage ? filterMileage.value : "all";
+  const selectedSort = sortCars ? sortCars.value : "default";
 
   if (selectedManufacturer !== "all") {
-    filteredCars = filteredCars.filter(
-      car => car.make === selectedManufacturer
-    );
+    filteredCars = filteredCars.filter(car => car.make === selectedManufacturer);
   }
 
   if (selectedMileage === "under20000") {
-    filteredCars = filteredCars.filter(
-      car => getNumericMileage(car.mileage) < 20000
-    );
+    filteredCars = filteredCars.filter(car => getNumericMileage(car.mileage) < 20000);
   } else if (selectedMileage === "20000to50000") {
     filteredCars = filteredCars.filter(car => {
       const mileage = getNumericMileage(car.mileage);
       return mileage >= 20000 && mileage <= 50000;
     });
   } else if (selectedMileage === "over50000") {
-    filteredCars = filteredCars.filter(
-      car => getNumericMileage(car.mileage) > 50000
-    );
+    filteredCars = filteredCars.filter(car => getNumericMileage(car.mileage) > 50000);
   }
 
   if (selectedSort === "price-low") {
-    filteredCars.sort(
-      (a, b) => getNumericPrice(a.price) - getNumericPrice(b.price)
-    );
+    filteredCars.sort((a, b) => getNumericPrice(a.price) - getNumericPrice(b.price));
   } else if (selectedSort === "price-high") {
-    filteredCars.sort(
-      (a, b) => getNumericPrice(b.price) - getNumericPrice(a.price)
-    );
+    filteredCars.sort((a, b) => getNumericPrice(b.price) - getNumericPrice(a.price));
   } else if (selectedSort === "year-new") {
     filteredCars.sort((a, b) => Number(b.year) - Number(a.year));
   } else if (selectedSort === "year-old") {
@@ -138,3 +135,45 @@ applyFiltersAndSort();
 filterManufacturer?.addEventListener("change", applyFiltersAndSort);
 filterMileage?.addEventListener("change", applyFiltersAndSort);
 sortCars?.addEventListener("change", applyFiltersAndSort);
+
+if (vinSearchBtn && vinResult) {
+  vinSearchBtn.addEventListener("click", () => {
+    const vinInput = document.getElementById("vin-search");
+    const vin = vinInput ? vinInput.value.trim() : "";
+
+    if (vin.length !== 17) {
+      alert("VIN must be exactly 17 characters.");
+      return;
+    }
+
+    vinResult.innerHTML = "<p>Loading...</p>";
+
+    fetch(`https://vpic.nhtsa.dot.gov/api/vehicles/DecodeVin/${vin}?format=json`)
+      .then(response => response.json())
+      .then(data => {
+        const results = data.Results;
+
+        const make = results.find(r => r.Variable === "Make")?.Value;
+        const model = results.find(r => r.Variable === "Model")?.Value;
+        const year = results.find(r => r.Variable === "Model Year")?.Value;
+
+        if (!make && !model && !year) {
+          vinResult.innerHTML = "<p>No vehicle found for this VIN.</p>";
+          return;
+        }
+
+        vinResult.innerHTML = `
+          <div class="car-card">
+            <h3>${year || "N/A"} ${make || ""} ${model || ""}</h3>
+            <p><strong>Manufacturer:</strong> ${make || "N/A"}</p>
+            <p><strong>Model:</strong> ${model || "N/A"}</p>
+            <p><strong>Year:</strong> ${year || "N/A"}</p>
+          </div>
+        `;
+      })
+      .catch(error => {
+        console.error("VIN lookup failed:", error);
+        vinResult.innerHTML = "<p>Error fetching VIN data.</p>";
+      });
+  });
+}

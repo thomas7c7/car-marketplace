@@ -1,10 +1,11 @@
-const carDetail = document.getElementById("car-detail");
-const selectedCar = JSON.parse(localStorage.getItem("selectedCar"));
-const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
+const currentUser = JSON.parse(localStorage.getItem("loggedInUser"));
 
-if (!loggedInUser) {
+if (!currentUser) {
   window.location.href = "login.html";
 }
+
+const carDetail = document.getElementById("car-detail");
+const selectedCar = JSON.parse(localStorage.getItem("selectedCar"));
 
 if (!carDetail) {
   console.error("car-detail element not found");
@@ -20,6 +21,7 @@ if (!carDetail) {
       <p><strong>Location:</strong> ${selectedCar.location || "N/A"}</p>
       <p><strong>Description:</strong> ${selectedCar.description || "No description provided."}</p>
       <p><strong>VIN:</strong> ${selectedCar.vin || "N/A"}</p>
+      <p><strong>Listed by:</strong> ${selectedCar.ownerName || "Unknown User"}</p>
       <a href="cars.html" class="btn">Back to Browse Cars</a>
     </div>
   `;
