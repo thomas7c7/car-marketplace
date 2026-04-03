@@ -1,3 +1,8 @@
+const currentUser = JSON.parse(localStorage.getItem("loggedInUser"));
+
+if (!currentUser) {
+  window.location.href = "login.html";
+}
 const carList = document.getElementById("car-list");
 const filterManufacturer = document.getElementById("filter-manufacturer");
 const filterMileage = document.getElementById("filter-mileage");

@@ -1,5 +1,10 @@
 const carDetail = document.getElementById("car-detail");
 const selectedCar = JSON.parse(localStorage.getItem("selectedCar"));
+const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
+
+if (!loggedInUser) {
+  window.location.href = "login.html";
+}
 
 if (!carDetail) {
   console.error("car-detail element not found");

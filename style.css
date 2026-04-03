@@ -305,3 +305,8 @@ main {
 .delete-btn:hover {
   background: #e63e3e;
 }
+
+.vin-message {
+  margin-top: 10px;
+  font-weight: bold;
+}

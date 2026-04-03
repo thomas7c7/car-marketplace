@@ -1,8 +1,12 @@
+const currentUser = JSON.parse(localStorage.getItem("loggedInUser"));
+
+if (!currentUser) {
+  window.location.href = "login.html";
+}
 const form = document.getElementById("sell-form");
 const vinBtn = document.getElementById("vin-btn");
 const vinMessage = document.getElementById("vin-message");
 const submitBtn = form ? form.querySelector('button[type="submit"]') : null;
-
 const editCar = JSON.parse(localStorage.getItem("editCar"));
 
 if (vinMessage) {
