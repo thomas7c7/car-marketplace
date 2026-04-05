@@ -1,26 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sell Your Car</title>
-  <link rel="stylesheet" href="../style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sell Car | Car Marketplace</title>
+  <link rel="stylesheet" href="../style.css" />
 </head>
 <body>
-
   <header>
     <h1>Sell Your Car</h1>
-       <nav>
-  <a href="index.html" id="home-link" style="display: none;">Home</a>
-  <a href="cars.html" id="browse-link" style="display: none;">Browse Cars</a>
-  <a href="sell.html" id="sell-link" style="display: none;">Sell Car</a>
+    <nav>
+      <a href="index.html" id="home-link" style="display: none;">Home</a>
+      <a href="cars.html" id="browse-link" style="display: none;">Browse Cars</a>
+      <a href="sell.html" id="sell-link" style="display: none;">Sell Car</a>
 
-  <a href="login.html" id="login-link">Login</a>
-  <a href="register.html" id="register-link">Register</a>
+      <a href="login.html" id="login-link">Login</a>
+      <a href="register.html" id="register-link">Register</a>
 
-  <span id="welcome-user"></span>
-  <a href="#" id="logout-link" style="display: none;">Logout</a>
-</nav>
+      <span id="welcome-user"></span>
+      <a href="#" id="logout-link" style="display: none;">Logout</a>
+    </nav>
   </header>
 
   <main>
@@ -28,24 +27,29 @@
       <h2 class="section-title">Create a New Listing</h2>
 
       <form id="sell-form" class="sell-form">
-        <input type="text" id="vin" placeholder="Enter VIN (17 characters)">
-        <button type="button" id="vin-btn" class="btn">Lookup VIN</button>
-        <p id="vin-message" class="vin-message"></p>
+        <div class="vin-row">
+          <input type="text" id="vin" placeholder="Enter VIN (17 characters)" />
+          <button type="button" id="vin-btn" class="btn">Lookup VIN</button>
+        </div>
 
-        <input type="text" id="make" placeholder="Make (Toyota)" required>
-        <input type="text" id="model" placeholder="Model (Camry)" required>
-        <input type="number" id="year" placeholder="Year" required>
-        <input type="text" id="price" placeholder="Price ($24,000)" required>
-        <input type="text" id="mileage" placeholder="Mileage (18,000 miles)" required>
-        <input type="text" id="color" placeholder="Color" required>
-        <input type="text" id="location" placeholder="Location" required>
-        <input type="text" id="image" placeholder="Image URL" required>
+        <p id="vin-message" class="form-message"></p>
+
+        <input type="text" id="make" placeholder="Manufacturer" required />
+        <input type="text" id="model" placeholder="Model" required />
+        <input type="number" id="year" placeholder="Year" required />
+        <input type="text" id="price" placeholder="Price ($24,000)" required />
+        <input type="text" id="mileage" placeholder="Mileage (18,000 miles)" required />
+        <input type="text" id="color" placeholder="Color" required />
+        <input type="text" id="location" placeholder="Location" required />
+        <input type="text" id="image" placeholder="Image URL" required />
         <textarea id="description" placeholder="Description" rows="5" required></textarea>
+
         <button type="submit" class="btn">List Car</button>
       </form>
     </section>
   </main>
-<script src="../js/auth.js"></script>
+
+  <script src="../js/auth.js"></script>
   <script src="../js/sell.js"></script>
 </body>
 </html>

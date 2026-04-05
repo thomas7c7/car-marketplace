@@ -1,3 +1,5 @@
+// Protect the details page too.
+
 const currentUser = JSON.parse(localStorage.getItem("loggedInUser"));
 
 if (!currentUser) {

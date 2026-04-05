@@ -1,14 +1,16 @@
-const loginForm = document.getElementById("login-form");
-const loginMessage = document.getElementById("login-message");
-const existingLogin = JSON.parse(localStorage.getItem("loggedInUser"));
+// If user is already logged in, just send them to the home page.
+const existingSession = JSON.parse(localStorage.getItem("loggedInUser"));
 
-if (existingLogin) {
+if (existingSession) {
   window.location.href = "index.html";
 }
 
+const loginForm = document.getElementById("login-form");
+const loginMessage = document.getElementById("login-message");
+
 if (loginForm) {
-  loginForm.addEventListener("submit", (e) => {
-    e.preventDefault();
+  loginForm.addEventListener("submit", (event) => {
+    event.preventDefault();
 
     const email = document.getElementById("login-email").value.trim();
     const password = document.getElementById("login-password").value.trim();
@@ -16,7 +18,7 @@ if (loginForm) {
     const users = JSON.parse(localStorage.getItem("users")) || [];
 
     const foundUser = users.find(
-      user => user.email === email && user.password === password
+      (user) => user.email === email && user.password === password
     );
 
     if (!foundUser) {
@@ -32,6 +34,6 @@ if (loginForm) {
 
     setTimeout(() => {
       window.location.href = "index.html";
-    }, 1000);
+    }, 800);
   });
 }

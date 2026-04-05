@@ -1,4 +1,5 @@
-const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
+// This file controls what links show in the navbar based on login state.
+const navUser = JSON.parse(localStorage.getItem("loggedInUser"));
 
 const homeLink = document.getElementById("home-link");
 const browseLink = document.getElementById("browse-link");
@@ -10,36 +11,31 @@ const registerLink = document.getElementById("register-link");
 const logoutLink = document.getElementById("logout-link");
 const welcomeUser = document.getElementById("welcome-user");
 
-if (loggedInUser) {
-  // show protected nav
-  homeLink?.style.setProperty("display", "inline");
-  browseLink?.style.setProperty("display", "inline");
-  sellLink?.style.setProperty("display", "inline");
+if (navUser) {
+  if (homeLink) homeLink.style.display = "inline";
+  if (browseLink) browseLink.style.display = "inline";
+  if (sellLink) sellLink.style.display = "inline";
 
-  // hide auth nav
-  loginLink?.style.setProperty("display", "none");
-  registerLink?.style.setProperty("display", "none");
+  if (loginLink) loginLink.style.display = "none";
+  if (registerLink) registerLink.style.display = "none";
 
-  // show logout
-  logoutLink?.style.setProperty("display", "inline");
+  if (logoutLink) logoutLink.style.display = "inline";
 
-  // welcome text
   if (welcomeUser) {
-    welcomeUser.textContent = `Welcome, ${loggedInUser.name}`;
-    welcomeUser.style.marginLeft = "15px";
-    welcomeUser.style.fontWeight = "bold";
+    welcomeUser.textContent = `Welcome, ${navUser.name}`;
   }
 } else {
-  // hide protected nav before login
-  homeLink?.style.setProperty("display", "none");
-  browseLink?.style.setProperty("display", "none");
-  sellLink?.style.setProperty("display", "none");
+  if (homeLink) homeLink.style.display = "none";
+  if (browseLink) browseLink.style.display = "none";
+  if (sellLink) sellLink.style.display = "none";
 }
 
-logoutLink?.addEventListener("click", (e) => {
-  e.preventDefault();
-
-  localStorage.removeItem("loggedInUser");
-
-  window.location.href = "login.html";
-});
+if (logoutLink) {
+  logoutLink.addEventListener("click", (event) => {
+    event.preventDefault();
+    localStorage.removeItem("loggedInUser");
+    localStorage.removeItem("editCar");
+    localStorage.removeItem("selectedCar");
+    window.location.href = "login.html";
+  });
+}

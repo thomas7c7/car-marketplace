@@ -1,69 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Browse Cars</title>
-  <link rel="stylesheet" href="../style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Browse Cars | Car Marketplace</title>
+  <link rel="stylesheet" href="../style.css" />
 </head>
 <body>
-
   <header>
     <h1>Browse Cars</h1>
-       <nav>
-  <a href="index.html" id="home-link" style="display: none;">Home</a>
-  <a href="cars.html" id="browse-link" style="display: none;">Browse Cars</a>
-  <a href="sell.html" id="sell-link" style="display: none;">Sell Car</a>
+    <nav>
+      <a href="index.html" id="home-link" style="display: none;">Home</a>
+      <a href="cars.html" id="browse-link" style="display: none;">Browse Cars</a>
+      <a href="sell.html" id="sell-link" style="display: none;">Sell Car</a>
 
-  <a href="login.html" id="login-link">Login</a>
-  <a href="register.html" id="register-link">Register</a>
+      <a href="login.html" id="login-link">Login</a>
+      <a href="register.html" id="register-link">Register</a>
 
-  <span id="welcome-user"></span>
-  <a href="#" id="logout-link" style="display: none;">Logout</a>
-</nav>
+      <span id="welcome-user"></span>
+      <a href="#" id="logout-link" style="display: none;">Logout</a>
+    </nav>
   </header>
 
-<main>
+  <main>
+    <h2 class="section-title">Available Cars</h2>
 
-<div class="filters">
-  <select id="filter-manufacturer">
-    <option value="all">All Manufacturers</option>
-    <option value="Toyota">Toyota</option>
-    <option value="Honda">Honda</option>
-    <option value="Ford">Ford</option>
-    <option value="BMW">BMW</option>
-    <option value="Nissan">Nissan</option>
-    <option value="Chevrolet">Chevrolet</option>
-  </select>
+    <div class="filters">
+      <select id="filter-manufacturer">
+        <option value="all">All Manufacturers</option>
+      </select>
 
-  <select id="filter-mileage">
-    <option value="all">All Mileage</option>
-    <option value="under20000">Under 20,000 miles</option>
-    <option value="20000to50000">20,000 - 50,000 miles</option>
-    <option value="over50000">Over 50,000 miles</option>
-  </select>
+      <select id="filter-mileage">
+        <option value="all">All Mileage</option>
+        <option value="under20000">Under 20,000 miles</option>
+        <option value="20000to50000">20,000 - 50,000 miles</option>
+        <option value="over50000">Over 50,000 miles</option>
+      </select>
 
-  <select id="sort-cars">
-    <option value="default">Sort By</option>
-    <option value="price-low">Price: Low to High</option>
-    <option value="price-high">Price: High to Low</option>
-    <option value="year-new">Year: Newest First</option>
-    <option value="year-old">Year: Oldest First</option>
-  </select>
-</div>
+      <select id="sort-cars">
+        <option value="default">Sort By</option>
+        <option value="price-low">Price: Low to High</option>
+        <option value="price-high">Price: High to Low</option>
+        <option value="year-new">Year: Newest First</option>
+        <option value="year-old">Year: Oldest First</option>
+      </select>
+    </div>
 
-<div class="vin-search">
-  <input type="text" id="vin-search" placeholder="Enter VIN (17 characters)">
-  <button id="vin-search-btn">Lookup VIN</button>
-</div>
+    <div class="vin-search">
+      <input type="text" id="vin-search" placeholder="Enter VIN (17 characters)" />
+      <button id="vin-search-btn" class="btn" type="button">Lookup VIN</button>
+    </div>
 
-<div id="vin-result"></div>
+    <div id="vin-result"></div>
+    <div id="car-list"></div>
+  </main>
 
-  <!-- CAR LIST -->
-  <div id="car-list"></div>
-
-</main>
-<script src="../js/auth.js"></script>
+  <script src="../js/auth.js"></script>
   <script src="../js/cars.js"></script>
 </body>
 </html>
